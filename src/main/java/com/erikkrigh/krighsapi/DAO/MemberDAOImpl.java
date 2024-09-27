@@ -1,6 +1,7 @@
 package com.erikkrigh.krighsapi.DAO;
 
 import com.erikkrigh.krighsapi.DTO.MemberDTO;
+import com.erikkrigh.krighsapi.models.Address;
 import com.erikkrigh.krighsapi.models.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -38,6 +39,14 @@ public class MemberDAOImpl implements MemberDAO {
     public Member findById(int id) {
         Member member = entityManager.find(Member.class, id);
         return member;
+    }
+
+    @Override
+    public List<Member> findAllByAddress(Address address) {
+        TypedQuery<Member> query = entityManager.createQuery(
+                "FROM Member WHERE address = :address", Member.class);
+        query.setParameter("address", address);
+        return query.getResultList();
     }
 
     @Override
