@@ -1,7 +1,8 @@
 package com.erikkrigh.krighsapi.models;
 
 import jakarta.persistence.*;
-import org.hibernate.persister.collection.mutation.UpdateRowsCoordinatorNoOp;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "addresses")
@@ -14,6 +15,8 @@ public class Address {
     @Column(name = "street", nullable = false)
     private String street;
 
+    @Size(min = 5, max = 5, message = "postalcode must be 5 digits.")
+    @Pattern(regexp = "\\d{5}", message = "postalcode may only contain digits.")
     @Column(name = "postalcode", nullable = false)
     private String postalcode;
 

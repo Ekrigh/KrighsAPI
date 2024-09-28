@@ -1,6 +1,8 @@
 package com.erikkrigh.krighsapi.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 
 import java.time.LocalDate;
 
@@ -18,10 +20,12 @@ public class Member {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Valid
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    @Email(message = "Invalid Emailaddress")
     @Column(name = "email", nullable = false)
     private String email;
 

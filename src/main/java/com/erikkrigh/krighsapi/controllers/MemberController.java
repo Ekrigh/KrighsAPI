@@ -4,6 +4,7 @@ import com.erikkrigh.krighsapi.DTO.MemberDTO;
 import com.erikkrigh.krighsapi.exceptions.MemberNotFoundException;
 import com.erikkrigh.krighsapi.models.Member;
 import com.erikkrigh.krighsapi.services.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
 public class MemberController {
 
     private MemberService memberService;
@@ -41,14 +41,14 @@ public class MemberController {
 
     @PutMapping("/admin/members/{id}")
     @PreAuthorize("hasRole('client_ADMIN')")
-    public ResponseEntity<Member> updateMember(@PathVariable("id") int id, @RequestBody Member member) {
+    public ResponseEntity<Member> updateMember(@PathVariable("id") int id, @Valid @RequestBody Member member) {
         member.setId(id);
         return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
     }
 
     @PostMapping("/admin/members")
     @PreAuthorize("hasRole('client_ADMIN')")
-    public ResponseEntity<Member> addMember(@RequestBody Member member) {
+    public ResponseEntity<Member> addMember(@Valid @RequestBody Member member) {
         member.setId(0);
         return new ResponseEntity<Member>(memberService.save(member), HttpStatus.CREATED);
     }
@@ -73,7 +73,7 @@ public class MemberController {
 
     @PutMapping("/mypages/members/{id}")
     @PreAuthorize("hasRole('client_MEMBER')")
-    public ResponseEntity<Member> updateCurrentMember(@PathVariable("id") int id, @RequestBody Member member) {
+    public ResponseEntity<Member> updateCurrentMember(@PathVariable("id") int id, @Valid @RequestBody Member member) {
         member.setId(id);
         return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
     }
