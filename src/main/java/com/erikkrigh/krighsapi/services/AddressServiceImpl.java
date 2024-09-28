@@ -2,6 +2,7 @@ package com.erikkrigh.krighsapi.services;
 
 import com.erikkrigh.krighsapi.DAO.AddressDAO;
 import com.erikkrigh.krighsapi.models.Address;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,13 @@ public class AddressServiceImpl implements AddressService {
         addressDAO = addrDAO;
     }
 
+    @Transactional
     @Override
     public void save(Address address) {
         addressDAO.save(address);
     }
 
+    @Transactional
     @Override
     public void delete(Address address) {
         addressDAO.delete(address);
