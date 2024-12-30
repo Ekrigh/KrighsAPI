@@ -2,7 +2,6 @@ package com.erikkrigh.krighsapi.DTO;
 
 import com.erikkrigh.krighsapi.models.Address;
 
-
 public class MemberDTO {
 
     private String firstName;

@@ -2,6 +2,7 @@ package com.erikkrigh.krighsapi.services;
 
 import com.erikkrigh.krighsapi.DAO.MemberDAO;
 import com.erikkrigh.krighsapi.DTO.MemberDTO;
+import com.erikkrigh.krighsapi.exceptions.MemberNotFoundException;
 import com.erikkrigh.krighsapi.models.Address;
 import com.erikkrigh.krighsapi.models.Member;
 import jakarta.transaction.Transactional;
@@ -33,7 +34,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member findById(int id) {
-        return memberDAO.findById(id);
+        Member member = memberDAO.findById(id);
+        if (member == null) {
+            throw new MemberNotFoundException("member with id: " + id + " doesn't exist");
+        }
+        return member;
     }
 
     @Transactional
@@ -56,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
         Member savedMember = memberDAO.save(member);
 
         //check if address was changed and if old address is orphaned
-        if (oldAddress != null && !oldAddress.equals(address)) {
+        if (member.getId() !=0 && oldAddress != null && !oldAddress.equals(address)) {
             List<Member> membersWithSameAddress = memberDAO.findAllByAddress(oldAddress);
             if (membersWithSameAddress.isEmpty()) {
                 addressService.delete(oldAddress);

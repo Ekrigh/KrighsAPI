@@ -32,11 +32,7 @@ public class MemberController {
     @GetMapping("/admin/members/{id}")
     @PreAuthorize("hasRole('client_ADMIN')")
     public Member getMember(@PathVariable int id) {
-        Member member = memberService.findById(id);
-        if (member == null) {
-            throw new MemberNotFoundException("member with id: " + id + " doesn't exist");
-        }
-        return member;
+        return memberService.findById(id);
     }
 
     @PutMapping("/admin/members/{id}")
@@ -56,11 +52,6 @@ public class MemberController {
     @DeleteMapping("/admin/members/{id}")
     @PreAuthorize("hasRole('client_ADMIN')")
     public String deleteMember(@PathVariable int id) {
-        Member member = memberService.findById(id);
-        if (member == null) {
-
-            throw new MemberNotFoundException("member with id: " + id + " doesn't exist");
-        }
         memberService.deleteById(id);
         return "member with id: " + id + " was deleted";
     }
